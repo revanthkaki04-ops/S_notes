@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentConfig = { alwaysOnTop: true, privateMode: true, opacity: 1, fontSize: 14, apiProvider: 'groq', groqApiKey: '', groqModel: 'openai/gpt-oss-120b', geminiApiKey: '', geminiModel: 'gemini-3.6-flash' };
   let interviewBrief = { resumeText: '', requirements: '' };
   let pendingScreenImage = '';
-  let activeScreenImage = '';
   let sessionMode = 'interview';
 
   function showToast(message, duration = 2500) {
@@ -207,13 +206,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  function addConversation(question, sendImmediately = false) {
+  function isScreenAnswerRequest(question) {
+    return /\bgive\s+me\s+the\s+answer\b/i.test(question);
+  }
+
+  async function addConversation(question, sendImmediately = false) {
     const text = question.trim();
     if (!text) return;
-    const index = conversations.length;
-    conversations.push({ question: text, answer: '', code: '', why: '', screenImage: pendingScreenImage || activeScreenImage });
+
+    let screenImage = pendingScreenImage;
     pendingScreenImage = '';
     btnAnalyzeScreen.classList.remove('active');
+
+    if (isScreenAnswerRequest(text)) {
+      try {
+        btnAnalyzeScreen.disabled = true;
+        screenImage = await window.sNotesAPI?.captureScreen() || '';
+        if (!screenImage) throw new Error('Unable to capture the current screen.');
+        showToast('Current screen attached for this answer.');
+      } catch (error) {
+        showToast(error.message || 'Unable to capture the current screen.');
+        return;
+      } finally {
+        btnAnalyzeScreen.disabled = false;
+      }
+    }
+
+    const index = conversations.length;
+    conversations.push({ question: text, answer: '', code: '', why: '', screenImage });
     renderConversations();
     conversationList.lastElementChild?.scrollIntoView({ block: 'end', behavior: 'smooth' });
     if (sendImmediately) {
@@ -223,10 +243,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  function submitChat(question) {
+  async function submitChat(question) {
     const text = question.trim();
     if (!text) return;
-    addConversation(text, true);
+    await addConversation(text, true);
   }
 
   function copyConversations() {
@@ -290,10 +310,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       btnAnalyzeScreen.disabled = true;
       pendingScreenImage = await window.sNotesAPI?.captureScreen() || '';
       if (!pendingScreenImage) throw new Error('Unable to capture the current screen.');
-      activeScreenImage = pendingScreenImage;
       btnAnalyzeScreen.classList.add('active');
       chatInput.focus();
-      showToast('Screen captured. It stays available for follow-up questions.');
+      showToast('Screen captured. It will be attached to your next question.');
     } catch (error) {
       showToast(error.message || 'Unable to capture the current screen.');
     } finally {
@@ -336,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (audio.size && window.sNotesAPI) {
         try {
           const text = await window.sNotesAPI.transcribeGroq(new Uint8Array(await audio.arrayBuffer()), mimeType);
-          addConversation(text, true);
+          await addConversation(text, true);
         } catch (error) {
           showToast(error.message || 'Unable to transcribe microphone audio.');
         }
