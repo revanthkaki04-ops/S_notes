@@ -570,7 +570,7 @@ For multiple-choice questions, the answer line must include the option letter an
 
 For code, explanations, summaries, or any other screen content, answer normally using the user's question and the screen text. Do not use the three-line format unless the user is asking about a multiple-choice, fill-in-the-blank, or direct question.`
     : '';
-  const examInstruction = sessionMode === 'exam'
+  const examInstruction = sessionMode === 'exam' && !screenText
     ? `You are conducting a mock exam. The user starts by asking to start an exam for a topic. Respond with one clear question only, without its answer. For every later user response, evaluate it against the preceding exam question in the conversation history. State whether it is correct, give a concise correction or explanation, then ask exactly one next question. Gradually vary the topic and difficulty. When the user asks for a summary, list strong topics and topics needing practice based only on their answers.`
     : '';
   const systemPrompt = `Answer the user's actual question clearly and directly. Use the resume and role requirements only when the question asks about the candidate's background, projects, skills, experience, introduction, interview answers, job fit, or the role. In those cases, use the supplied material as the factual source and never invent an employer, project, metric, skill, or experience.

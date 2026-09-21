@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function isScreenAnswerRequest(question) {
-    return /\bgive\s+me\s+the\s+answer\b/i.test(question);
+    return /\b(give\s+me\s+the\s+answer|see\s+(?:my|the)\s+screen|look\s+at\s+(?:my|the)\s+screen|analy[sz]e\s+(?:my|the)?\s*screen)\b/i.test(question);
   }
 
   async function addConversation(question, sendImmediately = false) {
