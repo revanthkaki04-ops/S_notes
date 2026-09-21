@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S-Notes</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Titlebar / Header -->
+  <header class="app-titlebar">
+    <div class="drag-region">
+      <div class="app-logo">
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span class="app-title-text">S-Notes</span>
+      </div>
+    </div>
+
+    <!-- Quick Action Controls -->
+    <div class="header-actions no-drag">
+      <!-- Private Mode Toggle -->
+      <button id="btn-private-mode" class="action-btn active" title="Private Mode: App is completely invisible during screen sharing" aria-label="Toggle Private Mode">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span class="btn-badge">PRIVATE</span>
+      </button>
+
+      <!-- Always on Top Toggle -->
+      <button id="btn-always-top" class="action-btn active" title="Always on Top (Stays floating above other apps)" aria-label="Toggle Always on Top">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="17" x2="12" y2="22"/>
+          <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2h1v4.76a2 2 0 0 1-.11.79l-1.78.9A2 2 0 0 0 6 15.24V17z"/>
+        </svg>
+      </button>
+
+      <div class="divider"></div>
+
+      <!-- Copy Action -->
+      <button id="btn-copy" class="action-btn" title="Copy conversation to clipboard" aria-label="Copy conversation">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+
+      <button id="btn-groq-settings" class="action-btn" title="Configure Groq API" aria-label="Configure Groq API">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.13 2.13-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56v.1h-3v-.1A1.7 1.7 0 0 0 10.67 18.7a1.7 1.7 0 0 0-1.88.34l-.06.06-2.13-2.13.06-.06A1.7 1.7 0 0 0 7 15.03a1.7 1.7 0 0 0-1.56-1.03h-.1v-3h.1A1.7 1.7 0 0 0 7 9.97a1.7 1.7 0 0 0-.34-1.88L6.6 8.03 8.73 5.9l.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.03-1.56v-.1h3v.1a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.13 2.13-.06.06A1.7 1.7 0 0 0 19.4 10c.63.25 1.04.86 1.04 1.54v.1h.1v3h-.1c-.68 0-1.29.41-1.04.36z"/>
+        </svg>
+      </button>
+
+      <!-- Clear Action -->
+      <button id="btn-clear" class="action-btn danger" title="Clear note" aria-label="Clear Note">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <line x1="10" y1="11" x2="10" y2="17"/>
+          <line x1="14" y1="11" x2="14" y2="17"/>
+        </svg>
+      </button>
+
+      <div class="divider"></div>
+
+      <!-- Minimize Window -->
+      <button id="btn-minimize" class="window-btn" title="Minimize" aria-label="Minimize Window">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+
+      <!-- Close Window -->
+      <button id="btn-close" class="window-btn close-btn" title="Close" aria-label="Close Window">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Private Mode Informational Banner & Opacity Control -->
+  <div id="private-banner" class="private-banner active">
+    <div class="banner-content">
+      <svg class="shield-mini" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Private Mode Active (Screen Share Invisible)</span>
+    </div>
+
+    <!-- Opacity Slider Control -->
+    <div class="opacity-control no-drag" title="Adjust Window Opacity / Transparency">
+      <svg class="opacity-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></svg>
+      <input type="range" id="opacity-range" min="30" max="100" value="100" step="5" aria-label="Window Opacity Slider">
+      <span id="opacity-value">100%</span>
+    </div>
+  </div>
+
+  <section id="setup-screen" class="setup-screen" aria-label="Interview setup">
+    <div class="interview-brief">
+    <div class="brief-heading">
+      <div>
+        <span class="brief-eyebrow">INTERVIEW PREP</span>
+        <h1>Your answer brief</h1>
+      </div>
+      <button id="btn-attach-resume" type="button" class="attach-resume-btn" title="Attach a resume from your files">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        Attach resume
+      </button>
+    </div>
+    <div id="resume-status" class="resume-status empty">
+      <span id="resume-name">No resume attached</span>
+      <button id="btn-remove-resume" type="button" class="remove-resume-btn hidden" title="Remove attached resume" aria-label="Remove attached resume">x</button>
+    </div>
+    <label class="requirements-label" for="requirements-input">Role requirements or exam topic</label>
+    <textarea id="requirements-input" rows="3" placeholder="Paste a job description, or enter an exam topic such as Data Structures."></textarea>
+    <button id="btn-start-interview" type="button" class="start-interview-btn">
+      Start interview prep
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+    </button>
+    <button id="btn-start-exam" type="button" class="start-exam-btn">Start mock exam</button>
+    </div>
+  </section>
+
+  <section id="answer-screen" class="answer-screen hidden" aria-label="Interview answers">
+    <div class="answer-toolbar">
+      <button id="btn-edit-brief" type="button" class="edit-brief-btn">Edit brief</button>
+      <div class="prompt-row" aria-label="Suggested interview questions">
+        <button type="button" class="prompt-chip" data-question="Give me a clear introduction based on my resume and this role.">Introduction</button>
+        <button type="button" class="prompt-chip" data-question="What are my most relevant projects and experience for this role?">Projects &amp; experience</button>
+        <button type="button" class="prompt-chip" data-question="Summarize everything I should highlight for this role in a strong interview answer.">Role summary</button>
+      </div>
+    </div>
+
+  <main class="conversation-container">
+    <div id="empty-state" class="empty-state">Ask a question about your resume or this role.</div>
+    <section id="conversation-list" class="conversation-list" aria-live="polite"></section>
+  </main>
+
+  <form id="chat-composer" class="chat-composer">
+    <input id="chat-input" type="text" autocomplete="off" placeholder="Ask about your resume or this role" aria-label="Interview question">
+    <button id="btn-listen" type="button" class="chat-mic-btn" title="Start listening through your microphone" aria-label="Start listening">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+    </button>
+    <button id="btn-system-audio" type="button" class="chat-system-btn" title="Capture disclosed system audio" aria-label="Capture disclosed system audio">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+    </button>
+    <button id="btn-analyze-screen" type="button" class="chat-screen-btn" title="Capture the current screen and attach it to your next question" aria-label="Analyze screen">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="3" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg>
+    </button>
+    <button type="submit" class="chat-send-btn" title="Send question" aria-label="Send question">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+    </button>
+  </form>
+
+  <!-- Footer / Status Bar -->
+  <footer class="app-statusbar">
+    <div class="status-info">
+      <span id="char-count">0 conversations</span>
+      <span class="dot">•</span>
+      <span id="word-count">Mic off</span>
+    </div>
+
+    <div class="footer-actions">
+      <!-- Font size controls -->
+      <button id="btn-font-dec" class="small-btn" title="Decrease font size">A-</button>
+      <span id="font-size-label" class="font-size-val">14px</span>
+      <button id="btn-font-inc" class="small-btn" title="Increase font size">A+</button>
+      
+      <span class="dot">•</span>
+      <span class="shortcut-tag" title="Global Toggle Shortcut (Press from anywhere on Windows)">Ctrl+M</span>
+    </div>
+  </footer>
+  </section>
+
+  <!-- Confirmation Modal for Clear -->
+  <div id="clear-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-title">Clear Note?</div>
+      <p class="modal-message">Are you sure you want to clear your current note text?</p>
+      <div class="modal-actions">
+        <button id="btn-cancel-clear" class="modal-btn secondary">Cancel</button>
+        <button id="btn-confirm-clear" class="modal-btn danger">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="groq-modal" class="modal-overlay hidden">
+    <div class="modal-box settings-box">
+      <div class="modal-title">AI Provider</div>
+      <label class="settings-label" for="api-provider">Provider</label>
+      <select id="api-provider" class="settings-input">
+        <option value="groq">Groq</option>
+        <option value="gemini">Gemini</option>
+      </select>
+      <label id="api-key-label" class="settings-label" for="groq-api-key">Groq API key</label>
+      <input id="groq-api-key" class="settings-input" type="password" autocomplete="off" placeholder="gsk_...">
+      <label id="model-label" class="settings-label" for="groq-model">Groq model</label>
+      <input id="groq-model" class="settings-input" type="text" autocomplete="off" value="openai/gpt-oss-120b">
+      <p class="modal-message">Both providers use the same chat, Analyze Screen, Mock Interview, and Mock Exam rules.</p>
+      <div class="modal-actions">
+        <button id="btn-cancel-groq" class="modal-btn secondary">Cancel</button>
+        <button id="btn-save-groq" class="modal-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Popup -->
+  <div id="toast" class="toast hidden">
+    <span id="toast-message">Copied to clipboard</span>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

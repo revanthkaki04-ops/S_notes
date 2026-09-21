@@ -1,0 +1,52 @@
+{
+  "name": "s-notes",
+  "version": "1.0.0",
+  "description": "Simple Private Floating Desktop Notes Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . S-Notes --platform=win32 --arch=x64 --out=build --overwrite",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "notes",
+    "private",
+    "floating",
+    "sticky-notes",
+    "electron"
+  ],
+  "author": "S-Notes",
+  "license": "MIT",
+  "build": {
+    "appId": "com.snotes.app",
+    "productName": "S-Notes",
+    "forceCodeSigning": false,
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false,
+      "verifyUpdateCodeSignature": false
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ]
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "koffi": "^3.2.1",
+    "mammoth": "^1.11.0",
+    "pdf-parse": "^1.1.1",
+    "tesseract.js": "^5.1.1"
+  }
+}
